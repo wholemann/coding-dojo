@@ -4,15 +4,17 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 
 fun solution(phone_book: Array<String>): Boolean {
-    tailrec fun step(head: String, phone_book: List<String>): Boolean = when {
-        phone_book.isEmpty() -> true
-        phone_book.hasPrefix(head) -> false
-        else -> step(phone_book.first(), phone_book.drop(1))
+    tailrec fun step(head: String, tail: List<String>): Boolean = when {
+        tail.isEmpty() -> true
+        tail.hasPrefix(head) -> false
+        else -> step(tail.first(), tail.drop(1))
     }
     phone_book.sort()
-    return step(phone_book.first(), phone_book.drop(1))
+    return step(car(phone_book), cdr(phone_book))
 }
 
+fun <T> car(list: Array<T>) = list.first()
+fun <T> cdr(list: Array<T>) = list.drop(1)
 fun <T: String> Collection<T>.hasPrefix(prefix: T) = any { it.startsWith(prefix) }
 
 class SolutionTest {
